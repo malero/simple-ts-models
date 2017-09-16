@@ -130,10 +130,6 @@ export class Model extends EventDispatcher {
         return this['__'+field];
     }
 
-    getClass():any {
-        return this.constructor.toString();
-    }
-
     bindToFields(event:string, fields:string[], callback) {
         for(const field of fields) {
             const _field = this['__'+ field];
