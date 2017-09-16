@@ -150,6 +150,16 @@ describe('Model', () => {
         expect(m.id).toBe(1);
         expect(m.required_field).toBe('required!');
     });
+
+    it("should return the field object", () => {
+        const m = new TestModel({
+            id: 1,
+            required_field: 'required!'
+        }),
+            field = m.getField('required_field');
+        expect(field.value).toBe('required!');
+
+    });
 });
 
 describe('Collection', () => {
