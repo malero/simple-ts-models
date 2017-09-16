@@ -44,6 +44,12 @@ describe('Model', () => {
         const m = new TestModel();
         m.required_field = 'yes';
         expect(m.validate()['required_field']).toBe(undefined);
+        expect(m.hasErrors()).toBe(false);
+        expect(m.errors.length).toBe(0);
+        m.required_field = null;
+        m.validate();
+        expect(m.hasErrors()).toBe(true);
+        expect(m.errors.length).toBe(1);
     });
 
     it("Should trigger a change event when any field is changed", () => {
@@ -112,6 +118,60 @@ describe('Model', () => {
         m.required_field = 'testing';
 
         expect(value).toBe(m.required_field);
+    });
+
+    it("should save last data and return true with is modfied if something is modified", () => {
+        const m = new TestModel({
+            id: 1,
+            required_field: 'required!'
+        });
+        m.setLastData();
+        expect(m.isModified()).toBe(false);
+        m.id = 2;
+        expect(m.isModified()).toBe(true);
+        m.setLastData();
+        expect(m.isModified()).toBe(false);
+        m.required_field = 'still required';
+        expect(m.isModified()).toBe(true);
+    });
+
+    it("should revert to last data correctly", () => {
+        const m = new TestModel({
+            id: 1,
+            required_field: 'required!'
+        });
+        m.setLastData();
+        expect(m.isModified()).toBe(false);
+        m.id = 2;
+        m.required_field = null;
+        expect(m.isModified()).toBe(true);
+        m.revert();
+        expect(m.isModified()).toBe(false);
+        expect(m.id).toBe(1);
+        expect(m.required_field).toBe('required!');
+    });
+
+    it("should return the field object", () => {
+        const m = new TestModel({
+            id: 1,
+            required_field: 'required!'
+        }),
+            field = m.getField('required_field');
+        expect(field.value).toBe('required!');
+
+    });
+
+    it("should ignore data that does not match a field", () => {
+        const m = new TestModel({
+            id: 1,
+            required_field: 'required!'
+        });
+        m.setLastData();
+        m.setData({
+            spam: 1,
+            bar: 'Baz!'
+        });
+        expect(m.isModified()).toBe(false);
     });
 });
 

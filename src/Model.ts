@@ -106,6 +106,10 @@ export class Model extends EventDispatcher {
         this.setData(this._lastData);
     }
 
+    setLastData() {
+        this._lastData = this.getData();
+    }
+
     getData(): ModelData {
         const _data = {};
         for (const key of this.getFields()) {
@@ -124,10 +128,6 @@ export class Model extends EventDispatcher {
 
     getField(field: string): Field {
         return this['__'+field];
-    }
-
-    getClass():any {
-        return this.constructor.toString();
     }
 
     bindToFields(event:string, fields:string[], callback) {
@@ -154,12 +154,12 @@ export class Model extends EventDispatcher {
         return this._errors;
     }
 
-    hasErrors() {
+    hasErrors(): boolean {
         this.validate();
         return this._hasErrors;
     }
 
-    get errors() {
+    get errors(): MessageList {
         return this._errors;
     }
 }
