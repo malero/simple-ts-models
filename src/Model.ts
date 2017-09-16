@@ -158,12 +158,12 @@ export class Model extends EventDispatcher {
         return this._errors;
     }
 
-    hasErrors() {
+    hasErrors(): boolean {
         this.validate();
         return this._hasErrors;
     }
 
-    get errors() {
+    get errors(): MessageList {
         return this._errors;
     }
 }
