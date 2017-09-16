@@ -113,6 +113,21 @@ describe('Model', () => {
 
         expect(value).toBe(m.required_field);
     });
+
+    it("should save last data and return true with is modfied if something is modified", () => {
+        const m = new TestModel({
+            id: 1,
+            required_field: 'required!'
+        });
+        m.setLastData();
+        expect(m.isModified()).toBe(false);
+        m.id = 2;
+        expect(m.isModified()).toBe(true);
+        m.setLastData();
+        expect(m.isModified()).toBe(false);
+        m.required_field = 'still required';
+        expect(m.isModified()).toBe(true);
+    });
 });
 
 describe('Collection', () => {

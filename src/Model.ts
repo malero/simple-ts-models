@@ -106,6 +106,10 @@ export class Model extends EventDispatcher {
         this.setData(this._lastData);
     }
 
+    setLastData() {
+        this._lastData = this.getData();
+    }
+
     getData(): ModelData {
         const _data = {};
         for (const key of this.getFields()) {
