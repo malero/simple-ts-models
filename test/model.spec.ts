@@ -15,6 +15,9 @@ class TestModel extends Model {
     static uri:string = '/api/test/:id/';
     static collectionClass = TestCollection;
 
+    @field()
+    id: number;
+
     @field(Field, {
         required:true
     })
@@ -109,24 +112,6 @@ describe('Model', () => {
         m.required_field = 'testing';
 
         expect(value).toBe(m.required_field);
-    });
-
-    it("Should equal to a resource_uri, number or object with same resource_uri", () => {
-        const m = new TestModel(),
-            m2 = new TestModel();
-        m.id = 1;
-        m.resource_uri = '/test/resource_uri/1/';
-        m2.id = 2;
-        m2.resource_uri = '/test/resource_uri/2/';
-
-        expect(m.equals(m.resource_uri)).toBe(true);
-        expect(m.equals(m2.resource_uri)).toBe(false);
-        expect(m.equals(m.id)).toBe(true);
-        expect(m.equals(m2.id)).toBe(false);
-        expect(m.equals(m)).toBe(true);
-        expect(m.equals(m2)).toBe(false);
-        expect(m.equals(false)).toBe(false);
-        expect(m.equals(true)).toBe(false);
     });
 });
 

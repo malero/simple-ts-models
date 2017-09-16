@@ -130,6 +130,15 @@ export class Model extends EventDispatcher {
         return this.constructor.toString();
     }
 
+    bindToFields(event:string, fields:string[], callback) {
+        for(const field of fields) {
+            const _field = this['__'+ field];
+            if(_field)
+                _field.bind(event, callback);
+
+        }
+    }
+
     validate(): MessageList {
         this._hasErrors = false;
         this._errors = new MessageList;
