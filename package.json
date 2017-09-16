@@ -1,0 +1,38 @@
+{
+  "name": "simple-ts-models",
+  "version": "0.1.0",
+  "description": "A simple set of Typescript classes for defining models!",
+  "keywords": [
+    "typescript",
+    "models",
+    "validation"
+  ],
+  "main": "./dist/Model.js",
+  "scripts": {
+    "build": "rm -rf ./dist/ && tsc",
+    "clean": "rm -rf ./dist/",
+    "test": "karma start --single-run",
+    "posttest": "codecov",
+    "sample": "rm -rf sample/dist/ && tsc -p sample/ && node sample/dist/sample/index.js"
+  },
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "@types/jasmine": "^2.6.0",
+    "codecov": "^2.3.0",
+    "jasmine": "^2.8.0",
+    "karma": "^1.5.0",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-jasmine": "^1.1.0",
+    "karma-typescript": "^3.0.5",
+    "typescript": "^2.5.2"
+  },
+  "homepage": "https://github.com/malero/simple-ts-models",
+  "git": "https://github.com/malero/simple-ts-models",
+  "typings": "./dist/Model.d.ts",
+  "author": "Malero <contact@maleero.com> (http://www.maleero.com/)",
+  "bugs": {
+    "url": "https://github.com/malero/simple-ts-models/issues",
+    "email": "contact@maleero.com"
+  }
+}
