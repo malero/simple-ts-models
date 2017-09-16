@@ -160,6 +160,19 @@ describe('Model', () => {
         expect(field.value).toBe('required!');
 
     });
+
+    it("should ignore data that does not match a field", () => {
+        const m = new TestModel({
+            id: 1,
+            required_field: 'required!'
+        });
+        m.setLastData();
+        m.setData({
+            spam: 1,
+            bar: 'Baz!'
+        });
+        expect(m.isModified()).toBe(false);
+    });
 });
 
 describe('Collection', () => {
