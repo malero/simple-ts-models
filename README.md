@@ -12,6 +12,7 @@ npm install simple-ts-models
 
 ```
 import {DataModel} from "simple-ts-models";
+
 // Create a data model from a Javascript object
 let m = new DataModel({
     foo: 1,
@@ -33,7 +34,7 @@ m.bar = 5; // will call the function above
 m.bar = 'foo'; // will also call the function above
 
 // Bind to changes on all fields
-m.bind('change', (value, previousValue) => {
+m.bind('change', () => {
 
 });
 m.foo = 100; // will call the function above
@@ -46,7 +47,6 @@ m.bar = 'bar'; // will also call the function above
 
 ```
 import {Model, fields} from "simple-ts-models";
-
 
 class MyModel extends Model {
     @field(fields.PositiveIntegerField)
