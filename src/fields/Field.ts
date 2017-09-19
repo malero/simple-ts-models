@@ -57,10 +57,6 @@ export class Field extends EventDispatcher {
         return this.value;
     }
 
-    getPostData() {
-        return this.value;
-    }
-
     validate() {
         this._errors = [];
 
@@ -68,9 +64,5 @@ export class Field extends EventDispatcher {
             this._errors.push('This field is required.');
 
         return this._errors;
-    }
-    
-    static getAngularDependencies(config:any):string[] {
-        return [];
     }
 }

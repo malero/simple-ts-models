@@ -44,7 +44,9 @@ class TestModel extends AbstractTestModel {
     @field(EmailField)
     email: string;
 
-    @field(FloatField)
+    @field(FloatField, {
+        toFixed: 3
+    })
     float_field: number;
 
     @field(PositiveIntegerField)
@@ -67,6 +69,14 @@ describe('Model', () => {
     it("should throw an error when a field is required and the value is null", function() {
         const m = new TestModel();
         expect(m.validate()['required_field'].length).toBe(1);
+    });
+
+    it("should be invalid when a field validation fails", function() {
+        const m = new TestModel({
+            required_field: true,
+            email: 'testing'
+        });
+        expect(m.validate()['email'].length).toBe(1);
     });
 
     it("should not throw an error when a field that is required value is not null", function() {
@@ -213,12 +223,12 @@ describe('Model', () => {
 
     it("should cast values to field types", () => {
         const m = new TestModel({
-            float_field: '1.5',
-            positive_integer_field: -1,
+            float_field: '1.5111',
+            positive_integer_field: '-1',
             string_field: 1,
             boolean_field: 'true'
         });
-        expect(m.float_field).toBe(1.5);
+        expect(m.float_field).toBe(1.511);
         expect(m.positive_integer_field).toBe(0);
         expect(m.string_field).toBe('1');
         expect(m.boolean_field).toBe(true);
