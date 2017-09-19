@@ -56,7 +56,7 @@ class TestModel extends AbstractTestModel {
     string_field: string;
 
     @field(BooleanField)
-    boolean_field: string;
+    boolean_field: boolean;
 }
 
 class TestModel2 extends AbstractTestModel {
@@ -111,7 +111,8 @@ describe('Model', () => {
         const m = new TestModel({
                 id: 1,
                 required_field: 'yes',
-                foo: true
+                foo: true,
+                positive_integer_field: 1
             });
 
         let oldValue = null,
@@ -121,7 +122,8 @@ describe('Model', () => {
         m.bindToFields('change', [
             'required_field',
             'id',
-            'shouldnt_exist'
+            'shouldnt_exist',
+            'positive_integer_field'
         ], (values) => {
             oldValue = values.oldValue;
             value = values.value;
@@ -137,6 +139,12 @@ describe('Model', () => {
         oldValueCheck = m.required_field;
         m.required_field = 'no';
         expect(value).toBe(m.required_field);
+        expect(oldValue).toBe(oldValueCheck);
+
+        // Test to make sure positive_integer_field change event is being called
+        oldValueCheck = m.positive_integer_field;
+        m.positive_integer_field = 15;
+        expect(value).toBe(m.positive_integer_field);
         expect(oldValue).toBe(oldValueCheck);
 
         // Test to make sure fields that aren't being listened to aren't
