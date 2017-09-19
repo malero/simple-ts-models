@@ -1,6 +1,11 @@
 import {field, Field} from "../src/fields/Field";
 import {Model} from "../src/Model";
 import {Collection} from "../src/Collection";
+import {EmailField} from "../src/fields/EmailField";
+import {FloatField} from "../src/fields/FloatField";
+import {PositiveIntegerField} from "../src/fields/PositiveNumberField";
+import {StringField} from "../src/fields/StringField";
+import {BooleanField} from "../src/fields/BooleanField";
 
 class TestCollection extends Collection<TestModel> {
     getDefault: () => any = (): any => {
@@ -35,6 +40,23 @@ class TestModel extends AbstractTestModel {
 
     @field(Field, null)
     invalid_field: string;
+
+    @field(EmailField)
+    email: string;
+
+    @field(FloatField, {
+        toFixed: 3
+    })
+    float_field: number;
+
+    @field(PositiveIntegerField)
+    positive_integer_field: number;
+
+    @field(StringField)
+    string_field: string;
+
+    @field(BooleanField)
+    boolean_field: boolean;
 }
 
 class TestModel2 extends AbstractTestModel {
@@ -47,6 +69,14 @@ describe('Model', () => {
     it("should throw an error when a field is required and the value is null", function() {
         const m = new TestModel();
         expect(m.validate()['required_field'].length).toBe(1);
+    });
+
+    it("should be invalid when a field validation fails", function() {
+        const m = new TestModel({
+            required_field: true,
+            email: 'testing'
+        });
+        expect(m.validate()['email'].length).toBe(1);
     });
 
     it("should not throw an error when a field that is required value is not null", function() {
@@ -81,7 +111,8 @@ describe('Model', () => {
         const m = new TestModel({
                 id: 1,
                 required_field: 'yes',
-                foo: true
+                foo: true,
+                positive_integer_field: 1
             });
 
         let oldValue = null,
@@ -91,7 +122,8 @@ describe('Model', () => {
         m.bindToFields('change', [
             'required_field',
             'id',
-            'shouldnt_exist'
+            'shouldnt_exist',
+            'positive_integer_field'
         ], (values) => {
             oldValue = values.oldValue;
             value = values.value;
@@ -107,6 +139,12 @@ describe('Model', () => {
         oldValueCheck = m.required_field;
         m.required_field = 'no';
         expect(value).toBe(m.required_field);
+        expect(oldValue).toBe(oldValueCheck);
+
+        // Test to make sure positive_integer_field change event is being called
+        oldValueCheck = m.positive_integer_field;
+        m.positive_integer_field = 15;
+        expect(value).toBe(m.positive_integer_field);
         expect(oldValue).toBe(oldValueCheck);
 
         // Test to make sure fields that aren't being listened to aren't
@@ -189,6 +227,19 @@ describe('Model', () => {
             bar: 'Baz!'
         });
         expect(m.isModified()).toBe(false);
+    });
+
+    it("should cast values to field types", () => {
+        const m = new TestModel({
+            float_field: '1.5111',
+            positive_integer_field: '-1',
+            string_field: 1,
+            boolean_field: 'true'
+        });
+        expect(m.float_field).toBe(1.511);
+        expect(m.positive_integer_field).toBe(0);
+        expect(m.string_field).toBe('1');
+        expect(m.boolean_field).toBe(true);
     });
 });
 

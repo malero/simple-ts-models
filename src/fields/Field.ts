@@ -2,9 +2,6 @@ import { EventDispatcher } from "simple-ts-event-dispatcher";
 
 export function field(fieldType = Field, config = {}) {
     return function(target: any, key: string) {
-        const _key = key;
-        key = key[0] == '_' ? key.substr(1) : key;
-
         if(target.__fields__ == undefined) {
             target.__fields__ = [];
         }
@@ -14,12 +11,12 @@ export function field(fieldType = Field, config = {}) {
             target.__fields__.push(key);
 
         const getter = function() {
-            return [fieldType, config, _key != key];
+            return [fieldType, config];
         };
 
         Object.defineProperty(target, '__'+key+'__', {
             get: getter,
-            set: (v: any) => {},
+            set: v => {},
             enumerable:false,
             configurable: true
         });
@@ -35,7 +32,7 @@ export class Field extends EventDispatcher {
     constructor(model:any, value?:any, config?: Object) {
         super();
         this.model = model;
-        this.config = config || {};
+        this.config = config;
         this.value = value;
         this._errors = [];
     }
@@ -57,10 +54,6 @@ export class Field extends EventDispatcher {
         return this.value;
     }
 
-    getPostData() {
-        return this.value;
-    }
-
     validate() {
         this._errors = [];
 
@@ -68,9 +61,5 @@ export class Field extends EventDispatcher {
             this._errors.push('This field is required.');
 
         return this._errors;
-    }
-    
-    static getAngularDependencies(config:any):string[] {
-        return [];
     }
 }
