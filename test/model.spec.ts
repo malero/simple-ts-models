@@ -11,10 +11,7 @@ class TestCollection extends Collection<TestModel> {
     };
 }
 
-class TestModel extends Model {
-    static uri:string = '/api/test/:id/';
-    static collectionClass = TestCollection;
-
+class AbstractTestModel extends Model {
     @field()
     id: number;
 
@@ -22,6 +19,10 @@ class TestModel extends Model {
         required:true
     })
     required_field:string;
+}
+
+class TestModel extends AbstractTestModel {
+    static collectionClass = TestCollection;
 
     @field()
     foo: boolean;
@@ -31,6 +32,14 @@ class TestModel extends Model {
 
     @field()
     is_default: boolean;
+
+    @field(Field, null)
+    invalid_field: string;
+}
+
+class TestModel2 extends AbstractTestModel {
+    @field()
+    shouldnt_exist: boolean;
 }
 
 
@@ -81,7 +90,8 @@ describe('Model', () => {
 
         m.bindToFields('change', [
             'required_field',
-            'id'
+            'id',
+            'shouldnt_exist'
         ], (values) => {
             oldValue = values.oldValue;
             value = values.value;
@@ -103,6 +113,13 @@ describe('Model', () => {
         // triggering the event
         oldValueCheck = m.foo;
         m.foo = false;
+        expect(value).not.toBe(m.foo);
+        expect(oldValue).not.toBe(oldValueCheck);
+
+        // Test to make sure fields that aren't being listened to aren't
+        // triggering the event
+        oldValueCheck = m.shouldnt_exist;
+        m.foo = true;
         expect(value).not.toBe(m.foo);
         expect(oldValue).not.toBe(oldValueCheck);
     });
