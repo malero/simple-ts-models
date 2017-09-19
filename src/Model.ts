@@ -19,7 +19,7 @@ export class Model extends ModelAbstract {
                     fieldType = _field[0],
                     config = _field[1] || {};
 
-                    _self.createField(field, fieldType, config);
+                _self.createField(field, fieldType, config);
             })(this, field);
         }
 
@@ -35,8 +35,6 @@ export class Model extends ModelAbstract {
         this._hasErrors = false;
         this._errors = new MessageList;
         for(const field of this.getFields()) {
-            if(!this['__'+field])
-                continue;
             const errors = this['__'+field].validate();
             if(errors.length > 0) {
                 this._errors.add(field, errors, true);
