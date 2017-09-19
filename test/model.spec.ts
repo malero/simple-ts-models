@@ -1,6 +1,11 @@
 import {field, Field} from "../src/fields/Field";
 import {Model} from "../src/Model";
 import {Collection} from "../src/Collection";
+import {EmailField} from "../src/fields/EmailField";
+import {FloatField} from "../src/fields/FloatField";
+import {PositiveIntegerField} from "../src/fields/PositiveNumberField";
+import {StringField} from "../src/fields/StringField";
+import {BooleanField} from "../src/fields/BooleanField";
 
 class TestCollection extends Collection<TestModel> {
     getDefault: () => any = (): any => {
@@ -35,6 +40,21 @@ class TestModel extends AbstractTestModel {
 
     @field(Field, null)
     invalid_field: string;
+
+    @field(EmailField)
+    email: string;
+
+    @field(FloatField)
+    float_field: number;
+
+    @field(PositiveIntegerField)
+    positive_integer_field: number;
+
+    @field(StringField)
+    string_field: string;
+
+    @field(BooleanField)
+    boolean_field: string;
 }
 
 class TestModel2 extends AbstractTestModel {
@@ -189,6 +209,19 @@ describe('Model', () => {
             bar: 'Baz!'
         });
         expect(m.isModified()).toBe(false);
+    });
+
+    it("should cast values to field types", () => {
+        const m = new TestModel({
+            float_field: '1.5',
+            positive_integer_field: -1,
+            string_field: 1,
+            boolean_field: 'true'
+        });
+        expect(m.float_field).toBe(1.5);
+        expect(m.positive_integer_field).toBe(0);
+        expect(m.string_field).toBe('1');
+        expect(m.boolean_field).toBe(true);
     });
 });
 
