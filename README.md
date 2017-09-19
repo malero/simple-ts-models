@@ -10,6 +10,8 @@ npm install simple-ts-models
 
 ## DataModel Usage
 
+DataModels can be used to create simple objects that will trigger change events when any of the values change.
+
 ```
 import {DataModel} from "simple-ts-models";
 
@@ -44,6 +46,8 @@ m.bar = 'bar'; // will also call the function above
 
 
 ## Model Usage
+
+Models need to be extended and have fields defined in order to set data on them. You can specify field types in the @field decorator. You can easily create your own custom field types for validating your data and implementing your own data manipulation.
 
 ```
 import {Model, fields} from "simple-ts-models";
