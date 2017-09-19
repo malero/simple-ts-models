@@ -1,12 +1,9 @@
-import { EventDispatcher } from "simple-ts-event-dispatcher";
 import MessageList from "simple-ts-message-list";
 import {Field} from "./fields/Field";
+import {ModelAbstract, ModelData} from "./ModelAbstract";
 
-export interface ModelData {
-    [key: string]: any;
-}
 
-export class Model extends EventDispatcher {
+export class Model extends ModelAbstract {
     __fields__: string[];
     protected _lastData: any;
     _errors: MessageList;
@@ -21,54 +18,9 @@ export class Model extends EventDispatcher {
 
                 const _field = _self['__'+field+'__'],
                     fieldType = _field[0],
-                    config = _field[1] || {},
-                    override = _field[2];
+                    config = _field[1] || {};
 
-                const instance = new fieldType(_self, config.default, config);
-                _self['__'+field] = instance;
-
-
-                const propDesc = Object.getOwnPropertyDescriptor(_self, field);
-
-                // property getter
-                const fieldGetter = function() {
-                    return instance.value;
-                };
-                const getter = propDesc ? propDesc.get : fieldGetter;
-
-                // property setter
-                const fieldSetter = function(newVal) {
-                    instance.value = newVal;
-                };
-                const setter = propDesc ? propDesc.set : fieldSetter;
-
-                // Delete the original property
-                if(override) {
-                    delete _self[field];
-                } else {
-                    delete _self['_'+field];
-
-                    // Set up a setter/getter for _key on overrides
-                    Object.defineProperty(_self, '_'+field, {
-                        get: fieldGetter,
-                        set: fieldSetter,
-                        enumerable: true,
-                        configurable: true
-                    });
-                }
-
-                // Create new property with getter and setter
-                Object.defineProperty(_self, field, {
-                    get: getter,
-                    set: setter,
-                    enumerable: true,
-                    configurable: true
-                });
-
-                instance.bind('change', (values) => {
-                    _self.trigger('change', field, values);
-                    _self.trigger('change:' + field, values);
-                });
+                    _self.createField(field, fieldType, config);
             })(this, field);
         }
         this._hasErrors = false;
