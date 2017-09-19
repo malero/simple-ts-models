@@ -7,9 +7,10 @@
     "models",
     "validation"
   ],
-  "main": "./dist/Model.js",
+  "main": "./dist/index.js",
   "scripts": {
-    "build": "rm -rf ./dist/ && tsc",
+    "prebuild": "rm -rf ./dist/",
+    "build": "tsc",
     "clean": "rm -rf ./dist/",
     "test": "karma start --single-run",
     "posttest": "codecov",
@@ -32,7 +33,7 @@
   },
   "homepage": "https://github.com/malero/simple-ts-models",
   "git": "https://github.com/malero/simple-ts-models",
-  "typings": "./dist/Model.d.ts",
+  "typings": "./dist/index.d.ts",
   "author": "Malero <contact@maleero.com> (http://www.maleero.com/)",
   "bugs": {
     "url": "https://github.com/malero/simple-ts-models/issues",
