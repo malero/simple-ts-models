@@ -110,6 +110,6 @@ c.length; // Returns 3
 // Use method added created in ExampleCollection
 c.getDefault() === m2; // true
 
-// Use Collection method getData to get object literals
+// Use Collection method getData to get an array of objects containing the data in each model
 c.getData(); // Returns [{id: 1, is_default: false},{id: 2, is_default: true},{id: 3, is_default: false}]
 ```
