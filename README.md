@@ -42,6 +42,8 @@ m.bind('change', () => {
 m.foo = 100; // will call the function above
 m.bar = 'bar'; // will also call the function above
 
+m.getData(); // Will return {foo: 100, bar: 'bar'}
+
 ```
 
 
@@ -70,4 +72,44 @@ let m = new MyModel({
 // Can set values from
 m.foo = 'string value'; // Will trigger 'change' & 'change:foo' events
 m.bar = [1,2,3];  // Will trigger 'change' & 'change:bar' events
+m.getData(); // Returns {id: 1, foo: 'string value', bar: [1,2,3]}
+```
+
+## Collection Usage
+
+The collection class is an extension of Javascript's built in Array class that can have methods added to it to do operations on a collection of a specific model class.
+
+
+```
+class ExampleModel extends Model {
+    @field()
+    id: number;
+
+    @field()
+    is_default: boolean;
+}
+
+class ExampleCollection extends Collection<ExampleModel> {
+    getDefault: () => any = (): any => {
+        for(const i of this) {
+            if(i.is_default)
+                return i;
+        }
+    };
+}
+
+let m1 = new ExampleModel({id: 1, is_default: false}),
+    m2 = new ExampleModel({id: 2, is_default: true}),
+    m3 = new ExampleModel({id: 3, is_default: false}),
+    c = new ExampleCollection(m1, m2);
+
+// Can use array methods
+c.push(m3);
+c.length; // Returns 3
+
+// Use method added created in ExampleCollection
+c.getDefault() === m2; // true
+
+// Use Collection method getData to get object literals
+c.getData(); // Returns [{id: 1, is_default: false},{id: 2, is_default: true},{id: 3, is_default: false}]
 ```
