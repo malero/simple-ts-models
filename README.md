@@ -1,6 +1,6 @@
 # Simple Typescript models
 
-[![Build Status](https://travis-ci.org/malero/simple-ts-models.svg?branch=master)](https://travis-ci.org/malero/simple-ts-models) [![codecov](https://codecov.io/gh/malero/simple-ts-models/branch/master/graph/badge.svg)](https://codecov.io/gh/malero/simple-ts-models)
+[![npm version](https://badge.fury.io/js/simple-ts-models.svg)](https://badge.fury.io/js/simple-ts-models) [![Build Status](https://travis-ci.org/malero/simple-ts-models.svg?branch=master)](https://travis-ci.org/malero/simple-ts-models) [![codecov](https://codecov.io/gh/malero/simple-ts-models/branch/master/graph/badge.svg)](https://codecov.io/gh/malero/simple-ts-models) [![npm](https://img.shields.io/npm/dw/simple-ts-models.svg)]()
 
 ## Installation
 
@@ -90,7 +90,7 @@ class ExampleModel extends Model {
 }
 
 class ExampleCollection extends Collection<ExampleModel> {
-    getDefault: () => any = (): any => {
+    getDefault: () => ExampleModel = (): ExampleModel => {
         for(const i of this) {
             if(i.is_default)
                 return i;
