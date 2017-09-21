@@ -244,7 +244,7 @@ describe('Model', () => {
 });
 
 describe('Collection', () => {
-    it("Custom Collection", function() {
+    it("should be able to use methods defined in TestCollection", function() {
         const collection = new TestCollection();
 
         collection.push(new TestModel({
@@ -268,5 +268,39 @@ describe('Collection', () => {
         }));
 
         expect(collection.getDefault().name).toBe('Model 2');
+    });
+
+    it("should return data from all models in the collection", function() {
+        const collection = new TestCollection();
+
+        collection.push(new TestModel({
+            name: 'Model 1',
+            is_default: false
+        }));
+
+        collection.push(new TestModel({
+            name: 'Model 2',
+            is_default: true
+        }));
+
+        collection.push(new TestModel({
+            name: 'Model 3',
+            is_default: false
+        }));
+
+        collection.push(new TestModel({
+            name: 'Model 4',
+            is_default: false
+        }));
+        const collectionData = collection.getData();
+
+        expect(collectionData[0].name).toBe('Model 1');
+        expect(collectionData[0].is_default).toBe(false);
+        expect(collectionData[1].name).toBe('Model 2');
+        expect(collectionData[1].is_default).toBe(true);
+        expect(collectionData[2].name).toBe('Model 3');
+        expect(collectionData[2].is_default).toBe(false);
+        expect(collectionData[3].name).toBe('Model 4');
+        expect(collectionData[3].is_default).toBe(false);
     });
 });
