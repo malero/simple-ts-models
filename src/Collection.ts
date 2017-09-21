@@ -1,13 +1,11 @@
 import {Model} from "./Model";
+import {ModelData} from "./ModelAbstract";
 
 export class Collection<T extends Model> extends Array<T> {
-    public $injected:any;
-
-    getData: () => any[] = function(): any[] {
+    getData: () => ModelData[] = (): ModelData[] => {
         // Returns an array of data from all of the models in the collection
-        const data = [],
-            items: Array<T> = this as Array<T>;
-        for(const item of items) {
+        const data: ModelData[] = [];
+        for(const item of this) {
             data.push(item.getData())
         }
         return data;

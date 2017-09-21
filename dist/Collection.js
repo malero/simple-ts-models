@@ -16,9 +16,9 @@ var Collection = /** @class */ (function (_super) {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.getData = function () {
             // Returns an array of data from all of the models in the collection
-            var data = [], items = this;
-            for (var _i = 0, items_1 = items; _i < items_1.length; _i++) {
-                var item = items_1[_i];
+            var data = [];
+            for (var _i = 0, _a = _this; _i < _a.length; _i++) {
+                var item = _a[_i];
                 data.push(item.getData());
             }
             return data;
