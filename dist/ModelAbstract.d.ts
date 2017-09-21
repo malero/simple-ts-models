@@ -13,7 +13,7 @@ export declare abstract class ModelAbstract extends EventDispatcher {
     getData(): ModelData;
     getFields(): string[];
     getField(field: string): Field;
-    bindToFields(event: string, fields: string[], callback: any): void;
+    bindToFields(event: string, fields: string[], callback: (...args: any[]) => any): void;
     setLastData(): void;
     revert(): void;
     isModified(): boolean;

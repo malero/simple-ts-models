@@ -45,9 +45,9 @@ export abstract class ModelAbstract extends EventDispatcher {
             configurable: true
         });
 
-        instance.bind('change', (values) => {
-            this.trigger('change', field, values);
-            this.trigger('change:' + field, values);
+        instance.bind('change', (...args: any[]) => {
+            this.trigger('change', field, ...args);
+            this.trigger('change:' + field, ...args);
         });
         return instance;
     }
@@ -81,7 +81,7 @@ export abstract class ModelAbstract extends EventDispatcher {
         return this['__'+field];
     }
 
-    bindToFields(event:string, fields:string[], callback) {
+    bindToFields(event:string, fields:string[], callback: (...args: any[]) => any) {
         for(const field of fields) {
             const _field = this['__'+ field];
             if(_field)

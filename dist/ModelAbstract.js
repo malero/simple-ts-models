@@ -43,9 +43,13 @@ var ModelAbstract = /** @class */ (function (_super) {
             enumerable: true,
             configurable: true
         });
-        instance.bind('change', function (values) {
-            _this.trigger('change', field, values);
-            _this.trigger('change:' + field, values);
+        instance.bind('change', function () {
+            var args = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                args[_i] = arguments[_i];
+            }
+            _this.trigger.apply(_this, ['change', field].concat(args));
+            _this.trigger.apply(_this, ['change:' + field].concat(args));
         });
         return instance;
     };
