@@ -1,8 +1,9 @@
 language: typescript
 dist: trusty
-sudo: false
+sudo: true
 
 addons:
+  chrome: stable
   apt:
     packages:
       - chromium-chromedriver
