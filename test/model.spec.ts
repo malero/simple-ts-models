@@ -18,50 +18,50 @@ class TestCollection extends Collection<TestModel> {
 
 class AbstractTestModel extends Model {
     @field()
-    id: number;
+    id!: number;
 
     @field(Field, {
         required:true
     })
-    required_field:string;
+    required_field!: string | null;
 }
 
 class TestModel extends AbstractTestModel {
     static collectionClass = TestCollection;
 
     @field()
-    foo: boolean;
+    foo!: boolean;
 
     @field()
-    name: string;
+    name!: string;
 
     @field()
-    is_default: boolean;
+    is_default!: boolean;
 
     @field(Field, null)
-    invalid_field: string;
+    invalid_field!: string;
 
     @field(EmailField)
-    email: string;
+    email!: string;
 
     @field(FloatField, {
         toFixed: 3
     })
-    float_field: number;
+    float_field!: number;
 
     @field(PositiveIntegerField)
-    positive_integer_field: number;
+    positive_integer_field!: number;
 
     @field(StringField)
-    string_field: string;
+    string_field!: string;
 
     @field(BooleanField)
-    boolean_field: boolean;
+    boolean_field!: boolean;
 }
 
 class TestModel2 extends AbstractTestModel {
     @field()
-    shouldnt_exist: boolean;
+    shouldnt_exist!: boolean;
 }
 
 
@@ -93,8 +93,8 @@ describe('Model', () => {
 
     it("Should trigger a change event when any field is changed", () => {
         const m = new TestModel();
-        let value = null,
-            field = null;
+        let value: string | null = null,
+            field: string | null = null;
 
         m.bind('change', (_field, values) => {
             field = _field;
@@ -103,8 +103,8 @@ describe('Model', () => {
 
         m.required_field = 'testing';
 
-        expect(field).toBe('required_field');
-        expect(value).toBe(m.required_field);
+        expect<string | null>(field).toBe('required_field');
+        expect<string | null>(value).toBe(m.required_field);
     });
 
     it("Should trigger a change event when a field is changed", () => {
@@ -116,8 +116,8 @@ describe('Model', () => {
             });
 
         let oldValue = null,
-            oldValueCheck = null,
-            value = null;
+            oldValueCheck: number | null = null,
+            value: number | null  = null;
 
         m.bindToFields('change', [
             'required_field',
@@ -132,39 +132,39 @@ describe('Model', () => {
         // Test to make sure id change event is being called
         oldValueCheck = m.id;
         m.id = 2;
-        expect(value).toBe(m.id);
-        expect(oldValue).toBe(oldValueCheck);
+        expect<number | null>(value).toBe(m.id);
+        expect<number | null>(oldValue).toBe(oldValueCheck);
 
         // Test to make sure required_field change event is being called
-        oldValueCheck = m.required_field;
+        const stringValueCheck: string | null = m.required_field;
         m.required_field = 'no';
-        expect(value).toBe(m.required_field);
-        expect(oldValue).toBe(oldValueCheck);
+        expect<string | null>(value).toBe(m.required_field);
+        expect<string | null>(oldValue).toBe(stringValueCheck);
 
         // Test to make sure positive_integer_field change event is being called
         oldValueCheck = m.positive_integer_field;
         m.positive_integer_field = 15;
-        expect(value).toBe(m.positive_integer_field);
-        expect(oldValue).toBe(oldValueCheck);
+        expect<number | null>(value).toBe(m.positive_integer_field);
+        expect<number | null>(oldValue).toBe(oldValueCheck);
 
         // Test to make sure fields that aren't being listened to aren't
         // triggering the event
-        oldValueCheck = m.foo;
+        const boolValueCheck: boolean = m.foo;
         m.foo = false;
-        expect(value).not.toBe(m.foo);
-        expect(oldValue).not.toBe(oldValueCheck);
+        expect<boolean | null>(value).not.toBe(m.foo);
+        expect<boolean | null>(oldValue).not.toBe(boolValueCheck);
 
         // Test to make sure fields that aren't being listened to aren't
         // triggering the event
         oldValueCheck = m.shouldnt_exist;
         m.foo = true;
-        expect(value).not.toBe(m.foo);
-        expect(oldValue).not.toBe(oldValueCheck);
+        expect<boolean | null>(value).not.toBe(m.foo);
+        expect<any>(oldValue).not.toBe(oldValueCheck);
     });
 
     it("Should trigger a change:field event when any field is changed", () => {
         const m = new TestModel();
-        let value = null;
+        let value: string | null = null;
 
         m.bind('change:required_field', (values) => {
             value = values.value;
@@ -172,7 +172,7 @@ describe('Model', () => {
 
         m.required_field = 'testing';
 
-        expect(value).toBe(m.required_field);
+        expect<string | null>(value).toBe(m.required_field);
     });
 
     it("should save last data and return true with is modfied if something is modified", () => {
@@ -203,7 +203,7 @@ describe('Model', () => {
         m.revert();
         expect(m.isModified()).toBe(false);
         expect(m.id).toBe(1);
-        expect(m.required_field).toBe('required!');
+        expect<string | null>(m.required_field).toBe('required!');
     });
 
     it("should return the field object", () => {

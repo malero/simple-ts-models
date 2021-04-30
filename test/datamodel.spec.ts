@@ -14,7 +14,7 @@ describe('Model', () => {
 
         m.foo = 'testing';
 
-        expect(field).toBe('foo');
+        expect<string | null>(field).toBe('foo');
         expect(value).toBe(m.foo);
     });
 

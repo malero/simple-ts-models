@@ -1,18 +1,19 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.fields = exports.field = exports.Collection = exports.Model = exports.DataModel = void 0;
 var Field_1 = require("./fields/Field");
-exports.field = Field_1.field;
+Object.defineProperty(exports, "field", { enumerable: true, get: function () { return Field_1.field; } });
 var BooleanField_1 = require("./fields/BooleanField");
 var EmailField_1 = require("./fields/EmailField");
 var FloatField_1 = require("./fields/FloatField");
 var PositiveNumberField_1 = require("./fields/PositiveNumberField");
 var StringField_1 = require("./fields/StringField");
 var DataModel_1 = require("./DataModel");
-exports.DataModel = DataModel_1.DataModel;
+Object.defineProperty(exports, "DataModel", { enumerable: true, get: function () { return DataModel_1.DataModel; } });
 var Model_1 = require("./Model");
-exports.Model = Model_1.Model;
+Object.defineProperty(exports, "Model", { enumerable: true, get: function () { return Model_1.Model; } });
 var Collection_1 = require("./Collection");
-exports.Collection = Collection_1.Collection;
+Object.defineProperty(exports, "Collection", { enumerable: true, get: function () { return Collection_1.Collection; } });
 var fields = {
     Field: Field_1.Field,
     BooleanField: BooleanField_1.BooleanField,

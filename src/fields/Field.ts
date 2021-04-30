@@ -1,6 +1,6 @@
 import { EventDispatcher } from "simple-ts-event-dispatcher";
 
-export function field(fieldType = Field, config = {}) {
+export function field(fieldType = Field, config: {} | null = {}) {
     return function(target: any, key: string) {
         if(target.__fields__ == undefined) {
             target.__fields__ = [];

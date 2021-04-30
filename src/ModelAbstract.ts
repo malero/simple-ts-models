@@ -14,7 +14,7 @@ export abstract class ModelAbstract extends EventDispatcher {
         super();
 
         // Models may have __fields__ from prototype
-        if(!this.__fields__)
+        if(!this['__fields__'])
             this.__fields__ = [];
     }
 

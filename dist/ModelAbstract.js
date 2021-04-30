@@ -1,15 +1,26 @@
 "use strict";
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __spreadArray = (this && this.__spreadArray) || function (to, from) {
+    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
+        to[j] = from[i];
+    return to;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ModelAbstract = void 0;
 var simple_ts_event_dispatcher_1 = require("simple-ts-event-dispatcher");
 var Field_1 = require("./fields/Field");
 var ModelAbstract = /** @class */ (function (_super) {
@@ -17,7 +28,7 @@ var ModelAbstract = /** @class */ (function (_super) {
     function ModelAbstract() {
         var _this = _super.call(this) || this;
         // Models may have __fields__ from prototype
-        if (!_this.__fields__)
+        if (!_this['__fields__'])
             _this.__fields__ = [];
         return _this;
     }
@@ -48,8 +59,8 @@ var ModelAbstract = /** @class */ (function (_super) {
             for (var _i = 0; _i < arguments.length; _i++) {
                 args[_i] = arguments[_i];
             }
-            _this.trigger.apply(_this, ['change', field].concat(args));
-            _this.trigger.apply(_this, ['change:' + field].concat(args));
+            _this.trigger.apply(_this, __spreadArray(['change', field], args));
+            _this.trigger.apply(_this, __spreadArray(['change:' + field], args));
         });
         return instance;
     };

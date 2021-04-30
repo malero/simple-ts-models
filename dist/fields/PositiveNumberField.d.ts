@@ -1,4 +1,5 @@
 import { Field } from "./Field";
 export declare class PositiveIntegerField extends Field {
-    value: any;
+    set value(data: any);
+    get value(): any;
 }
