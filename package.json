@@ -1,6 +1,6 @@
 {
   "name": "simple-ts-models",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "A simple set of Typescript classes for defining models!",
   "keywords": [
     "typescript",
@@ -18,18 +18,19 @@
   },
   "license": "MIT",
   "dependencies": {
-    "simple-ts-event-dispatcher": "^0.1.2",
-    "simple-ts-message-list": "^0.1.1"
+    "simple-ts-event-dispatcher": "^0.1.3",
+    "simple-ts-message-list": "^0.1.3"
   },
   "devDependencies": {
-    "@types/jasmine": "^2.6.0",
-    "codecov": "^2.3.0",
-    "jasmine": "^2.8.0",
-    "karma": "^1.5.0",
-    "karma-chrome-launcher": "^2.2.0",
-    "karma-jasmine": "^1.1.0",
-    "karma-typescript": "^3.0.5",
-    "typescript": "^2.5.2"
+    "@types/jasmine": "^3.6.10",
+    "codecov": "^3.8.1",
+    "jasmine": "^3.7.0",
+    "karma": "^6.3.2",
+    "karma-chrome-launcher": "^3.1.0",
+    "karma-coverage": "^2.0.3",
+    "karma-jasmine": "^4.0.1",
+    "karma-typescript": "^5.5.1",
+    "typescript": "^4.2.4"
   },
   "homepage": "https://github.com/malero/simple-ts-models",
   "git": "https://github.com/malero/simple-ts-models",

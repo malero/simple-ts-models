@@ -1,10 +1,10 @@
 "use strict";
-module.exports = function(config) {
+module.exports = function (config) {
     config.set({
         frameworks: ['jasmine', 'karma-typescript'],
         files: [
-            { pattern: './src/**/*.ts' },
-            { pattern: './test/**/*.ts' }
+            {pattern: './src/**/*.ts'},
+            {pattern: './test/**/*.ts'}
         ],
 
         preprocessors: {
@@ -13,7 +13,7 @@ module.exports = function(config) {
 
         reporters: ['progress', 'karma-typescript', 'coverage'],
         coverageReporter: {
-          reporters: [{type: 'lcov'}]
+            reporters: [{type: 'lcov'}]
         },
 
         karmaTypescriptConfig: {
@@ -22,6 +22,12 @@ module.exports = function(config) {
 
         logLevel: config.LOG_DEBUG,
 
-        browsers: ['Chrome']
+        browsers: ['ChromeHeadlessNoSandbox'],
+        customLaunchers: {
+            ChromeHeadlessNoSandbox: {
+                base: 'ChromeHeadless',
+                flags: ['--no-sandbox']
+            }
+        },
     });
 };

@@ -1,20 +1,27 @@
 "use strict";
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Model = void 0;
 var simple_ts_message_list_1 = require("simple-ts-message-list");
 var ModelAbstract_1 = require("./ModelAbstract");
 var Model = /** @class */ (function (_super) {
     __extends(Model, _super);
     function Model(data) {
+        if (data === void 0) { data = null; }
         var _this = _super.call(this) || this;
         var fields = _this.__fields__.splice(0, _this.__fields__.length);
         for (var _i = 0, fields_1 = fields; _i < fields_1.length; _i++) {
@@ -28,7 +35,8 @@ var Model = /** @class */ (function (_super) {
             })(_this, field);
         }
         _this._hasErrors = false;
-        _this.setData(data);
+        if (data)
+            _this.setData(data);
         _this._lastData = _this.getData();
         _this._constructor();
         return _this;
@@ -55,7 +63,7 @@ var Model = /** @class */ (function (_super) {
         get: function () {
             return this._errors;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     return Model;

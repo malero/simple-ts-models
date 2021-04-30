@@ -3,10 +3,10 @@ import {ModelAbstract, ModelData} from "./ModelAbstract";
 
 
 export class Model extends ModelAbstract {
-    _errors: MessageList;
+    _errors!: MessageList;
     _hasErrors: boolean;
 
-    constructor(data: ModelData) {
+    constructor(data: ModelData | null | undefined = null) {
         super();
         const fields = this.__fields__.splice(0, this.__fields__.length);
         for(const field of fields) {
@@ -24,7 +24,8 @@ export class Model extends ModelAbstract {
         }
 
         this._hasErrors = false;
-        this.setData(data);
+        if (data)
+            this.setData(data);
         this._lastData = this.getData();
         this._constructor();
     }
